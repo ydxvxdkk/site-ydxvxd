@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulário de Compra Futurista</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
+      color: #fff;
+      cursor: none;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 80px;
+    }
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      z-index: 1000;
+      padding: 15px 0;
+      transition: all 0.3s ease;
+    }
+    .navbar .navbar-brand {
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px #00ffff;
+      margin-left: 20px;
+    }
+    .navbar .nav-link {
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      margin: 0 15px;
+      transition: all 0.3s ease;
+    }
+    .navbar .nav-link:hover {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      transform: translateY(-2px);
+    }
+    .navbar .nav-link.active {
+      color: #00ffff;
+      border-bottom: 2px solid #00ffff;
+    }
+    .navbar-toggler {
+      border: none;
+      color: #00ffff;
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(0, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    .form-container {
+      background: rgba(30, 30, 30, 0.95);
+      padding: 50px;
+      border-radius: 25px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.2);
+      width: 100%;
+      max-width: 600px;
+      animation: glowPulse 2s infinite alternate;
+      position: relative;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      margin-top: 20px;
+    }
+    .form-container h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      color: #00ffff;
+      text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px #00ffff;
+      font-size: 2.5rem;
+    }
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .form-group i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00ffff;
+      font-size: 1.2rem;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+    .form-control {
+      padding-left: 50px;
+      padding-right: 20px;
+      transition: all 0.4s ease;
+      border: 1px solid #00ffff33;
+      border-radius: 12px;
+      background: rgba(40, 40, 40, 0.7);
+      color: #ffffff;
+      font-size: 1rem;
+      height: 50px;
+    }
+    .form-control[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 20px;
+    }
+    .form-control[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: none;
+      padding: 5px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16"><path d="M3 2v2h10V2H3zm0 3v9h10V5H3zm2 2h2v2H5V7zm4 0h2v2H9V7z"/></svg>') no-repeat center;
+    }
+    .form-control:focus,
+    .form-control:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #00ffff88;
+      border-color: #00ffff;
+      background: rgba(40, 40, 40, 0.9);
+    }
+    .form-control:invalid:not(:placeholder-shown) {
+      border-color: #ff4444;
+      box-shadow: 0 0 15px #ff444488;
+    }
+    .btn-primary {
+      background: linear-gradient(45deg, #00bcd4, #00ffff);
+      border: none;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 12px;
+      border-radius: 12px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #0097a7, #00bcd4);
+      box-shadow: 0 0 20px #00ffff;
+      transform: translateY(-5px);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
+    }
+    .btn-primary:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+    .notification {
+      position: fixed;
+      top: 100px;
+      right: 30px;
+      padding: 20px 30px;
+      border-radius: 12px;
+      color: #fff;
+      z-index: 10000;
+      animation: slideIn 0.5s ease forwards;
+      display: none;
+      font-family: 'Roboto', sans-serif;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+    .notification.success {
+      background: linear-gradient(45deg, #28a745, #34c759);
+    }
+    .notification.error {
+      background: linear-gradient(45deg, #dc3545, #ff5555);
+    }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+      100% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(100%); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .cursor {
+      width: 25px;
+      height: 25px;
+      border: 2px solid #00ffff;
+      border-radius: 50%;
+      position: fixed;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+      z-index: 99999;
+      box-shadow: 0 0 20px #00ffff, inset 0 0 5px #00ffff;
+    }
+    .cursor.click {
+      width: 35px;
+      height: 35px;
+      border-color: #ff00ff;
+      box-shadow: 0 0 25px #ff00ff;
+    }
+    *, input, button, textarea, select, label {
+      cursor: none !important;
+    }
+    label {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      font-size: 1rem;
+      transition: all 0.4s ease;
+      pointer-events: none;
+      font-family: 'Roboto', sans-serif;
+    }
+    .form-control:focus + label,
+    .form-control.has-value + label {
+      transform: translateY(-30px) translateX(-30px);
+      font-size: 0.8rem;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+    .modal-content {
+      background: rgba(30, 30, 30, 0.95);
+      border: 1px solid #00ffff;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffff88;
+      color: #fff;
+      z-index: 1000;
+    }
+    .modal-header {
+      border-bottom: 1px solid #00ffff33;
+    }
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+    .modal-body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .modal-footer {
+      border-top: 1px solid #00ffff33;
+    }
+    .btn-secondary {
+      background: linear-gradient(45deg, #6c757d, #adb5bd);
+      border: none;
+      font-family: 'Orbitron', sans-serif;
+      border-radius: 10px;
+    }
+    .btn-secondary:hover {
+      background: linear-gradient(45deg, #5a6268, #adb5bd);
+      box-shadow: 0 0 15px #adb5bd88;
+    }
+    @media (max-width: 768px) {
+      .navbar .nav-link {
+        margin: 10px 0;
+        text-align: center;
+      }
+      .form-container {
+        padding: 30px;
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">NeoShop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="produtos.html">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="carrinho.html">Carrinho</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <canvas class="particles" id="particles"></canvas>
+  <div class="cursor" id="cursor"></div>
+  <div class="notification" id="notification"></div>
+  <div class="form-container">
+    <h2 aria-label="Formulário de Compra">🛒 Formulário de Compra</h2>
+    <form id="purchaseForm" novalidate>
+      <div class="form-group">
+        <i class="fas fa-box"></i>
+        <input type="text" class="form-control" id="nomeProduto" placeholder=" " required aria-describedby="nomeProdutoError">
+        <label for="nomeProduto">Nome do Produto</label>
+        <small id="nomeProdutoError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="date" class="form-control" id="dataCompra" value="2025-05-16" required aria-describedby="dataCompraError">
+        <label for="dataCompra">Data da Compra</label>
+        <small id="dataCompraError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-sort-numeric-up"></i>
+        <input type="number" class="form-control" id="quantidade" placeholder=" " required min="1" aria-describedby="quantidadeError">
+        <label for="quantidade">Quantidade</label>
+        <small id="quantidadeError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-dollar-sign"></i>
+        <input type="text" class="form-control" id="precoProduto" placeholder=" " pattern="^\d+(\.\d{1,2})?$" title="Use ponto como separador decimal (ex: 10.99)" required aria-describedby="precoProdutoError">
+        <label for="precoProduto">Preço do Produto</label>
+        <small id="precoProdutoError" class="text-danger"></small>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        <i class="fas fa-paper-plane"></i> Confirmar Compra
+      </button>
+    </form>
+  </div>
+  <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="purchaseModalLabel">Resumo da Compra</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Produto:</strong> <span id="modalNomeProduto"></span></p>
+          <p><strong>Data:</strong> <span id="modalDataCompra"></span></p>
+          <p><strong>Quantidade:</strong> <span id="modalQuantidade"></span></p>
+          <p><strong>Preço Unitário:</strong> R$ <span id="modalPrecoProduto"></span></p>
+          <p><strong>Total:</strong> R$ <span id="modalTotal"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particlesArray = [];
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 5 + 1;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.size > 0.2) this.size -= 0.01;
+      }
+      draw() {
+        ctx.fillStyle = "rgba(0, 255, 255, 0.5)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    function initParticles() {
+      for (let i = 0; i < 100; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+        if (particlesArray[i].size <= 0.2) {
+          particlesArray.splice(i, 1);
+          particlesArray.push(new Particle());
+          i--;
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    initParticles();
+    animateParticles();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+    const cursor = document.getElementById("cursor");
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.top = `${e.clientY}px`;
+      cursor.style.left = `${e.clientX}px`;
+    });
+    document.addEventListener("mousedown", () => {
+      cursor.classList.add("click");
+      setTimeout(() => cursor.classList.remove("click"), 200);
+    });
+    const form = document.getElementById("purchaseForm");
+    const notification = document.getElementById("notification");
+    const purchaseModal = new bootstrap.Modal(document.getElementById("purchaseModal"));
+    const toggleLabelState = (input) => {
+      if (input.value) {
+        input.classList.add("has-value");
+      } else {
+        input.classList.remove("has-value");
+      }
+    };
+    const inputs = document.querySelectorAll(".form-control");
+    inputs.forEach(input => {
+      toggleLabelState(input);
+      input.addEventListener("input", () => toggleLabelState(input));
+      input.addEventListener("change", () => toggleLabelState(input));
+      input.addEventListener("focus", () => toggleLabelState(input));
+    });
+    const showNotification = (message, type) => {
+      notification.textContent = message;
+      notification.className = `notification ${type}`;
+      notification.style.display = "block";
+      setTimeout(() => {
+        notification.style.display = "none";
+      }, 4000);
+    };
+    const validateForm = () => {
+      let isValid = true;
+      const fields = [
+        { id: "nomeProduto", error: "Nome do produto é obrigatório" },
+        { id: "dataCompra", error: "Data da compra é obrigatória" },
+        { id: "quantidade", error: "Quantidade deve ser maior que 0" },
+        { id: "precoProduto", error: "Preço inválido (ex: 10.99)" }
+      ];
+      fields.forEach(field => {
+        const input = document.getElementById(field.id);
+        const errorElement = document.getElementById(`${field.id}Error`);
+        if (!input.value || 
+            (field.id === "quantidade" && input.value <= 0) || 
+            (field.id === "precoProduto" && !/^\d+(\.\d{1,2})?$/.test(input.value))) {
+          errorElement.textContent = field.error;
+          isValid = false;
+        } else {
+          errorElement.textContent = "";
+        }
+      });
+      return isValid;
+    };
+    const savePurchase = (data) => {
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
+      purchases.push(data);
+      localStorage.setItem("purchases", JSON.stringify(purchases));
+    };
+    const showPurchaseSummary = (data) => {
+      document.getElementById("modalNomeProduto").textContent = data.nomeProduto;
+      document.getElementById("modalDataCompra").textContent = new Date(data.dataCompra).toLocaleDateString("pt-BR");
+      document.getElementById("modalQuantidade").textContent = data.quantidade;
+      document.getElementById("modalPrecoProduto").textContent = parseFloat(data.precoProduto).toFixed(2);
+      document.getElementById("modalTotal").textContent = (data.quantidade * data.precoProduto).toFixed(2);
+      purchaseModal.show();
+    };
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (validateForm()) {
+        const formData = {
+          nomeProduto: document.getElementById("nomeProduto").value,
+          dataCompra: document.getElementById("dataCompra").value,
+          quantidade: parseInt(document.getElementById("quantidade").value),
+          precoProduto: parseFloat(document.getElementById("precoProduto").value),
+          timestamp: new Date().toISOString()
+        };
+        savePurchase(formData);
+        showNotification("Compra registrada com sucesso!", "success");
+        showPurchaseSummary(formData);
+        form.reset();
+        document.getElementById("dataCompra").value = "2025-05-16";
+        inputs.forEach(input => toggleLabelState(input));
+      } else {
+        showNotification("Por favor, corrija os erros no formulário.", "error");
+      }
+    });
+    const precoInput = document.getElementById("precoProduto");
+    precoInput.addEventListener("input", (e) => {
+      let value = e.target.value.replace(/[^\d.]/g, "");
+      const parts = value.split(".");
+      if (parts[1] && parts[1].length > 2) {
+        parts[1] = parts[1].slice(0, 2);
+        value = parts.join(".");
+      }
+      e.target.value = value;
+    });
+  </script>
+</body>
+</html>
